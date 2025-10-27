@@ -1,6 +1,6 @@
-# etl/load.py
+from rich import print
+from rich.panel import Panel
 
 def load_data(df, output_file):
-    print(f"Loading data to {output_file}")
     df.to_csv(output_file, index=False)
-    print("Load complete!")
+    print(Panel.fit(f"[green]Saved: {output_file}\n Rows: {len(df)}[/green]"))

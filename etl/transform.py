@@ -1,16 +1,23 @@
-# etl/transform.py
 import pandas as pd
+from rich.console import Console
+
+console = Console()
 
 def clean_data(df):
-    print("Transforming data...")
+    before = len(df)
+    console.print("[magenta] Cleaning data…[/magenta]")
 
     df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
-
-    df = df.dropna(subset=["product_name", "price"])
+    df.dropna(subset=["product_name", "price"], inplace=True)
 
     df["price"] = pd.to_numeric(df["price"], errors="coerce")
-    df = df.dropna(subset=["price"])
+    df.dropna(subset=["price"], inplace=True)
 
-    df = df.sort_values(by="price", ascending=False)
+    df.sort_values(by="price", ascending=False, inplace=True)
+
+    after = len(df)
+    removed = before - after
+
+    console.print(f"✨ Cleaned: {after} rows | ❌ Removed: {removed}")
 
     return df
