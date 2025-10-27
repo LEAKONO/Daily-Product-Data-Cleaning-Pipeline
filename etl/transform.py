@@ -2,7 +2,7 @@
 import pandas as pd
 
 def clean_data(df):
-    print("🔧 Transforming data...")
+    print("Transforming data...")
 
     df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
 
